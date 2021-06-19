@@ -1,8 +1,7 @@
 # A C++  Web Server
 
 #### 介绍
-{***
-一个轻量级的web服务器，目前支持GET、HEAD方法请求，采用的是：单进程+Reactor+非阻塞}
+一个轻量级的web服务器，目前支持GET、HEAD方法请求，采用的是：单进程+Reactor+非阻塞
 
 #### 开发部署环境
 · 操作系统: Ubuntu 16.04
