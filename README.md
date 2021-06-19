@@ -1,39 +1,41 @@
-# WebServer
+# A C++  Web Server
 
 #### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+{***
+一个轻量级的web服务器，目前支持GET、HEAD方法请求，采用的是：单进程+Reactor+非阻塞}
 
-#### 软件架构
-软件架构说明
+#### 开发部署环境
+· 操作系统: Ubuntu 16.04
 
+· 编译器: g++ 9.3
 
-#### 安装教程
+· 版本控制: git
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+· 自动化构建: cmake
 
-#### 使用说明
+· 编辑器: Vscode
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+· 压测工具：WebBench
 
 
-#### 特技
+#### Usage
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+mkdir build && cd build
+cmake .. && make
+./Socket [-p port] [-t thread_numbers]  [-r website_root_path] [-d daemon_run]
+
+#### 核心功能及技术
+
+1.  通过状态机解析HTTP请求，目前支持GET、HEAD方法
+2.  添加定时器支持HTTP长连接，定时回调handler处理超时连接
+3.  使用 priority queue 实现管理定时器，使用标记删除，以支持惰性删除，提高性能
+4.  使用epoll + 非阻塞IO + 边缘触发(ET) 实现高并发处理请求，使用Reactor编程模型
+5.  使用线程池提高并发度，并降低频繁创建线程的开销
+6.  使用shared_ptr、weak_ptr管理指针，防止内存泄漏
+7.  使用RAII手法封装互斥器(pthrea_mutex_t)、 条件变量(pthread_cond_t)等线程同步互斥机制，使用RAII管理文件描述符等资源
+8.  epoll使用EPOLLONESHOT保证一个socket连接在任意时刻都只被一个线程处理
+#### 开发计划
+
+1.  添加异步的日志记录系统，记录服务器的运行和访问状态
+2.  提供CGI支持
+3.  类似nginx的反向代理和负载均衡
