@@ -19,9 +19,9 @@
 
 #### Usage
 
-mkdir build && cd build
-cmake .. && make
-./Socket [-p port] [-t thread_numbers]  [-r website_root_path] [-d daemon_run]
+·  mkdir build && cd build
+·  cmake .. && make
+·  ./Socket [-p port] [-t thread_numbers]  [-r website_root_path] [-d daemon_run]
 
 #### 核心功能及技术
 
